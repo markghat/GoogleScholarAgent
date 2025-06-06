@@ -15,8 +15,6 @@
 import os
 
 from . import agent
-from .agent import root_agent
-from serpapi import GoogleSearch
 
 
 __all__ = ["agent"]

@@ -17,7 +17,7 @@
 from google.adk.agents import LlmAgent
 import os
 from . import prompt
-from .tools import google_scholar_search
+from .tools import search_google_scholar, search_google_news, find_author
 
 
 MODEL = "gemini-2.5-pro-preview-05-06"
@@ -32,7 +32,9 @@ root_agent = LlmAgent(
     ),
     instruction=prompt.RESEARCH_AGENT_PROMPT,
     tools=[
-        google_scholar_search
+        search_google_scholar,
+        search_google_news,
+        find_author
     ],
 )
 
