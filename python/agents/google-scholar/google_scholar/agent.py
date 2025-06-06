@@ -19,10 +19,14 @@ import os
 from . import prompt
 from .tools import search_google_scholar, search_google_news, find_author
 
-
 MODEL = "gemini-2.5-pro-preview-05-06"
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
-print(f"DEBUG: SERPAPI_API_KEY loaded in agent config: '{SERPAPI_API_KEY}'")
+
+
+# Define state changes
+state_changes = {'key': 'new_value'}
+
+
 
 root_agent = LlmAgent(
     name="root_agent",

@@ -130,3 +130,4 @@ def find_author(name: str) -> dict:
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
+    
