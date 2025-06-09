@@ -13,11 +13,10 @@
 # limitations under the License.
 
 """Academic_Research: Finding scholarly articles"""
-
-from google.adk.agents import LlmAgent
 import os
+from google.adk.agents import LlmAgent
 from . import prompt
-from .tools import search_google_scholar, search_google_news, find_author
+from .tools import search_google_scholar, search_google_news, find_author, find_author_details
 
 MODEL = "gemini-2.5-pro-preview-05-06"
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
@@ -38,8 +37,7 @@ root_agent = LlmAgent(
     tools=[
         search_google_scholar,
         search_google_news,
-        find_author
-    ],
+        find_author,
+        find_author_details
+    ]
 )
-
-
