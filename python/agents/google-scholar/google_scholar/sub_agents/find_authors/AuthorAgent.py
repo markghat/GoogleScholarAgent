@@ -12,28 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Academic_Research: A multi-agent system for finding scholarly articles, news, and author information."""
+"""Author Agent to retreive Google Scholar profiles"""
 import os
+
 from google.adk.agents import LlmAgent
+
+from ...tools.find_author import find_author_tool
+from ...tools.find_author_details import find_author_details_tool
 from . import prompt
-from .tools.find_papers import find_papers_tool
-from .tools.find_news import find_news_tool
-from .sub_agents.find_authors.AuthorAgent import AuthorAgent as author_agent_instance
+
 MODEL = "gemini-2.5-pro-preview-05-06"
 
-root_agent = LlmAgent(
-    name="root_agent",
+AuthorAgent = LlmAgent(
     model=MODEL,
+    name="author_agent",
     description=(
-       "A multi-purpose research assistant agent. It can find academic papers, news, "
-        "and general information, and delegates author-specific queries to a specialized agent."
+        "Find information on authors"
     ),
-    instruction=prompt.RESEARCH_AGENT_PROMPT,
+    instruction=prompt.AUTHOR_AGENT_PROMPT,
     tools=[
-        find_papers_tool,
-        find_news_tool,
+        find_author_tool,
+        find_author_details_tool
     ],
-    sub_agents=[ 
-        author_agent_instance
-    ]
-    )
+)
