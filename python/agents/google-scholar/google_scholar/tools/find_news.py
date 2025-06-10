@@ -1,3 +1,5 @@
+"Tool to search Google News for articles on a given subject"
+
 import os
 import requests
 
@@ -39,7 +41,7 @@ def find_news_tool(query: str) -> dict:
                     "author": result.get("author", "N/A")
                 }
                 processed_articles.append(article_info)
-        
+
         return {"articles": processed_articles}
 
     except requests.exceptions.RequestException as e:
@@ -48,4 +50,3 @@ def find_news_tool(query: str) -> dict:
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
-

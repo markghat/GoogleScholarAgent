@@ -49,7 +49,8 @@ Please follow these steps to accomplish the task at hand:
                 - **If `last_author_search_results` (from `find_author_tool`) is empty:**
                     - State clearly: "I couldn't find any authors matching that name."
                     - **Specifically add: "If you have their full name, I can search again."**
-                    I. If the second author search still returns no results, indicate that this author doesn't have a Google Scholar Profile
+                    I. If after searching the full name of the author, the second author search still returns no results, indicate that this author doesn't have a Google Scholar Profile. Also, indicate that you will run a general google search on this author.
++                        - use the call the google_search_agent to run a google search on the author's name. Do this automatically, do not ask the user.
                 - **Else (authors were found - proceed with conditional action):**
                     - **Conditional Action based on number of authors found in 'last_author_search_results':**
                         - **If there is exactly ONE author in 'last_author_search_results':**

@@ -1,4 +1,4 @@
-"""Searches Google Scholar for authors by name"""
+"""Tool to search Google Scholar for author profiles by name"""
 
 import os
 import requests

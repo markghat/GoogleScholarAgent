@@ -1,4 +1,4 @@
-"Performs a Google Scholar search for papers on a certain topic"
+"Tool to search Google Scholar for papers on a given topic"
 
 import os
 import requests
@@ -42,7 +42,7 @@ def find_papers_tool(query: str) -> dict:
                             authors_names.append(author.get("name", "N/A"))
                             author_ids.append(author.get("author_id", "N/A"))
                     elif "summary" in result["publication_info"]:
-                            authors_names.append(result["publication_info"].get("summary", "N/A"))
+                        authors_names.append(result["publication_info"].get("summary", "N/A"))
 
                 article_info = {
                     "title": result.get("title", "N/A"),

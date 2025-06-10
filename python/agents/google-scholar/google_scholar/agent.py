@@ -16,6 +16,9 @@
 and author information."""
 
 from google.adk.agents import LlmAgent
+from google.adk.tools import google_search
+from google.adk.tools import agent_tool
+
 from . import prompt
 from .tools.find_papers import find_papers_tool
 from .tools.find_news import find_news_tool
@@ -23,6 +26,19 @@ from .tools.find_author import find_author_tool
 from .tools.find_author_details import find_author_details_tool
 from .sub_agents.author_agent import AuthorAgent
 MODEL = "gemini-2.5-pro-preview-05-06"
+
+
+google_search_agent = LlmAgent(
+    name="root_agent",
+    model=MODEL,
+    description=(
+       "An agent that searches Google when an author profile cannot be found."
+    ),
+    instruction="You're a specialist in searching authors using Google Search",
+    tools=[
+        google_search
+    ],
+    )
 
 root_agent = LlmAgent(
     name="root_agent",
@@ -36,6 +52,7 @@ root_agent = LlmAgent(
         find_papers_tool,
         find_news_tool,
         find_author_tool,
-        find_author_details_tool
+        find_author_details_tool,
+        agent_tool.AgentTool(agent=google_search_agent)
     ],
     )
