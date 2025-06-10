@@ -24,7 +24,6 @@ from .tools.find_papers import find_papers_tool
 from .tools.find_news import find_news_tool
 from .tools.find_author import find_author_tool
 from .tools.find_author_details import find_author_details_tool
-from .sub_agents.author_agent import AuthorAgent
 MODEL = "gemini-2.5-pro-preview-05-06"
 
 
