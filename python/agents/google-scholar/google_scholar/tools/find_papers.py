@@ -22,6 +22,7 @@ def find_papers_tool(query: str) -> dict:
         "engine": "google_scholar",
         "q": query,
         "api_key": SERPAPI_API_KEY,
+        "as_ylo": "2000",
         "num": 5, 
     }
 
@@ -35,10 +36,13 @@ def find_papers_tool(query: str) -> dict:
             for result in search_results["organic_results"]:
                 authors_names = []
                 author_ids = []
-                if "publication_info" in result and "authors" in result["publication_info"]:
-                    for author in result["publication_info"]["authors"]:
-                        authors_names.append(author.get("name", "N/A"))
-                        author_ids.append(author.get("author_id", "N/A"))
+                if "publication_info" in result:
+                    if "authors" in result["publication_info"]:
+                        for author in result["publication_info"]["authors"]:
+                            authors_names.append(author.get("name", "N/A"))
+                            author_ids.append(author.get("author_id", "N/A"))
+                    elif "summary" in result["publication_info"]:
+                            authors_names.append(result["publication_info"].get("summary", "N/A"))
 
                 article_info = {
                     "title": result.get("title", "N/A"),
