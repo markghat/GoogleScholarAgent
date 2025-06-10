@@ -36,6 +36,7 @@ def find_author_details_tool(author_id: str) -> dict:
         "engine": "google_scholar_author",  
         "author_id": author_id,
         "api_key": SERPAPI_API_KEY,
+        "as_sdt": "as_vis"
     }
     try:
 
@@ -72,7 +73,9 @@ def find_author_details_tool(author_id: str) -> dict:
 
         return {"author": author_details, "articles": processed_articles}
 
+    except requests.exceptions.RequestException as e:
+        print(f"A request error occurred: {e}")
+        return {"error": f"Request error: {e}"}
     except Exception as e:
         print(f"An unexpected non-requests error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
-        

@@ -41,7 +41,9 @@ def find_author_tool(name: str) -> dict:
 
         return {"Authors": found_authors}
 
+    except requests.exceptions.RequestException as e:
+        print(f"A request error occurred: {e}")
+        return {"error": f"Request error: {e}"}
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
-        

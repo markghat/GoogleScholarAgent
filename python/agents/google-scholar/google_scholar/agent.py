@@ -19,6 +19,8 @@ from google.adk.agents import LlmAgent
 from . import prompt
 from .tools.find_papers import find_papers_tool
 from .tools.find_news import find_news_tool
+from .tools.find_author import find_author_tool
+from .tools.find_author_details import find_author_details_tool
 from .sub_agents.author_agent import AuthorAgent
 MODEL = "gemini-2.5-pro-preview-05-06"
 
@@ -27,14 +29,13 @@ root_agent = LlmAgent(
     model=MODEL,
     description=(
        "A multi-purpose research assistant agent. It can find academic papers, news, "
-        "and general information, and delegates author-specific queries to a specialized agent."
+        "general information, and author information."
     ),
     instruction=prompt.RESEARCH_AGENT_PROMPT,
     tools=[
         find_papers_tool,
         find_news_tool,
+        find_author_tool,
+        find_author_details_tool
     ],
-    sub_agents=[
-        AuthorAgent
-    ]
     )
