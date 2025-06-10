@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import requests
+"""Tool to retrieve detailed information for Google Scholar author profiles."""
+
 import os
+import requests
 
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
@@ -32,13 +34,13 @@ def find_author_details_tool(author_id: str) -> dict:
     base_url = "https://serpapi.com/search.json"
     params = {
         "engine": "google_scholar_author",  
-        "author_id": author_id,             
+        "author_id": author_id,
         "api_key": SERPAPI_API_KEY,
     }
     try:
 
-        response = requests.get(base_url, params=params)
-        response.raise_for_status() 
+        response = requests.get(base_url, params=params, timeout=10)
+        response.raise_for_status()
         results = response.json()
 
 
@@ -71,5 +73,6 @@ def find_author_details_tool(author_id: str) -> dict:
         return {"author": author_details, "articles": processed_articles}
 
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(f"An unexpected non-requests error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
+        

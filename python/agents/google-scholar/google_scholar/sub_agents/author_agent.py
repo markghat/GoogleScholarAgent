@@ -13,12 +13,10 @@
 # limitations under the License.
 
 """Author Agent to retreive Google Scholar profiles"""
-import os
-
 from google.adk.agents import LlmAgent
 
-from ...tools.find_author import find_author_tool
-from ...tools.find_author_details import find_author_details_tool
+from ..tools.find_author import find_author_tool
+from ..tools.find_author_details import find_author_details_tool
 from . import prompt
 
 MODEL = "gemini-2.5-pro-preview-05-06"

@@ -1,5 +1,5 @@
-import requests
 import os
+import requests
 
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
@@ -16,6 +16,7 @@ def find_news_tool(query: str) -> dict:
         Each article dictionary will have 'link', 'title', and 'author'.
         Returns an empty dictionary if the request fails or no results are found.
     """
+
     base_url = "https://serpapi.com/search.json"
     params = {
         "engine": "google_news", 

@@ -1,5 +1,7 @@
-import requests
+"""Searches Google Scholar for authors by name"""
+
 import os
+import requests
 
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
@@ -20,8 +22,8 @@ def find_author_tool(name: str) -> dict:
         "api_key": SERPAPI_API_KEY,
     }
     try:
-        response = requests.get(base_url, params=params)
-        response.raise_for_status() 
+        response = requests.get(base_url, params=params, timeout=10)
+        response.raise_for_status()
         results = response.json()
 
         found_authors = []
@@ -34,10 +36,12 @@ def find_author_tool(name: str) -> dict:
                 }
                 found_authors.append(author_profile)
         else:
-            print("DEBUG: 'profiles' or 'authors' key NOT found in SerpApi response for author search.")
+            print("""DEBUG: 'profiles' or 'authors' key NOT found
+                in SerpApi response for author search.""")
+
         return {"Authors": found_authors}
 
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
-
+        
