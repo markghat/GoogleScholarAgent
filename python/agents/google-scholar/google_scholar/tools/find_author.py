@@ -6,7 +6,7 @@ import requests
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 def find_author_tool(name: str) -> dict:
-    """performs a search on Google scholar to search for Authors
+    """Performs a search on Google scholar to search for authors
 
     args:
     author name

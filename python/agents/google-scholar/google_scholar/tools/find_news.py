@@ -1,4 +1,4 @@
-"Tool to search Google News for articles on a given subject"
+"""Tool to search Google News for articles on a given subject"""
 
 import os
 import requests

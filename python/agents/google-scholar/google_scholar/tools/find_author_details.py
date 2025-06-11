@@ -47,8 +47,8 @@ def find_author_details_tool(author_id: str) -> dict:
                     for interest in author_data.get("interests", [])
                 ]
             }
+            
         author_details["author profile"] = results["search_metadata"].get("google_scholar_author_url", "N/A")
-
 
         if "articles" in results:
             for article in results["articles"][:5]:

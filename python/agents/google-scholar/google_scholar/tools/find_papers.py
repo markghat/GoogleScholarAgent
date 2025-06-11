@@ -14,7 +14,7 @@ def find_papers_tool(query: str) -> dict:
 
     Returns:
         A dictionary containing a list of up to 5 simplified article results.
-        Each article dictionary will have 'titke', 'link', 'snippet', 'authors_names', "authors_id".
+        Each article dictionary will have 'titke', 'link', 'snippet', 'author_names', "author_ids".
         Returns an empty dictionary if the request fails or no results are found.
     """
     base_url = "https://serpapi.com/search.json"
@@ -34,21 +34,21 @@ def find_papers_tool(query: str) -> dict:
 
         if "organic_results" in search_results:
             for result in search_results["organic_results"]:
-                authors_names = []
+                author_names = []
                 author_ids = []
                 if "publication_info" in result:
                     if "authors" in result["publication_info"]:
                         for author in result["publication_info"]["authors"]:
-                            authors_names.append(author.get("name", "N/A"))
+                            author_names.append(author.get("name", "N/A"))
                             author_ids.append(author.get("author_id", "N/A"))
                     elif "summary" in result["publication_info"]:
-                        authors_names.append(result["publication_info"].get("summary", "N/A"))
+                        author_names.append(result["publication_info"].get("summary", "N/A"))
 
                 article_info = {
                     "title": result.get("title", "N/A"),
                     "link": result.get("link", "N/A"),
                     "snippet": result.get("snippet", "N/A"),
-                    "authors_names": authors_names,
+                    "author_names": author_names,
                     "author_id": author_ids
                 }
                 processed_articles.append(article_info)

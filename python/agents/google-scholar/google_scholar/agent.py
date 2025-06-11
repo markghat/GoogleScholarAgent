@@ -31,7 +31,8 @@ google_search_agent = LlmAgent(
     name="root_agent",
     model=MODEL,
     description=(
-       "An agent that searches Google when an author profile cannot be found."
+       """An agent that performs a general Google search when an author's 
+       Google Scholar profile cannot be found."""
     ),
     instruction="You're a specialist in searching authors using Google Search",
     tools=[
