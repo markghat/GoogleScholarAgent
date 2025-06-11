@@ -36,8 +36,8 @@ Please follow these steps to accomplish the task at hand:
         a. **If the user's current query provides an `author_id` or you have an `author_id` from a previous step (e.g., from `last_scholar_results`):**
             - Immediately call the `get_author_details` tool using this `author_id`. There is no need to call `find_author_tool` first.
             - The `api_key` will be provided by your environment.
-            - Relay the author's **name, affiliations, email, interests**, and a list of their **articles (title, link, publication, year, and cited_by_value)** back to the user.
-            - If the author's `profile_image_url` is available and not "N/A", you MUST display it using Markdown image syntax immediately after the author's name or affiliations: `![Profile image of Author Name](<profile_image_url>)`. Provide clear and concise alt text.
+            - Relay the author's **name, google scholar profile, affiliations, email, interests**, and a list of their **articles (title, link, publication, year, and cited_by_value)** back to the user.
+            - If the author's `thumbnail` is available and not "N/A", you MUST display it using Markdown image syntax immediately after the author's name or affiliations: `![Profile image of Author Name](<profile_image_url>)`. Provide clear and concise alt text.
             - If affiliations, email, interests, or articles are not available, state that.
             - **After providing these details, indicate that you have completed the request for this author and are ready for a new author query.**
         b. **If the user's current query explicitly contains an author name** (e.g., "who is Mark Miller?", "find papers by Jane Doe", "research Albert Einstein", "tell me about John Smith"):
@@ -48,7 +48,7 @@ Please follow these steps to accomplish the task at hand:
             ii. **Handle search results from `find_author_tool`:**
                 - **If `last_author_search_results` (from `find_author_tool`) is empty:**
                     - State clearly: "I couldn't find any authors matching that name."
-                    - **Specifically add: "If you have their full name, I can search again."**
+                    - **Specifically add: "If you have their full name or author ID, I can search again."**
                     I. If after searching the full name of the author, the second author search still returns no results, indicate that this author doesn't have a Google Scholar Profile. Also, indicate that you will run a general google search on this author.
 +                        - use the call the google_search_agent to run a google search on the author's name. Do this automatically, do not ask the user.
                 - **Else (authors were found - proceed with conditional action):**

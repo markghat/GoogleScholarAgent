@@ -13,7 +13,7 @@ def find_author_details_tool(author_id: str) -> dict:
 
     Returns:
         A dictionary containing the author's details 
-        (name, google scholar profile url, affiliations, interests)
+        (name, thumbnail, google scholar profile url, affiliations, interests)
         and a list of their articles. Returns an empty dictionary if not found or an error occurs.
     """
 
@@ -38,24 +38,28 @@ def find_author_details_tool(author_id: str) -> dict:
             author_data = results["author"]
             author_details = {
                 "name": author_data.get("name", "N/A"),
-                "author profile": author_data.get("google_scholar_author_url", "N/A"),
+                "author image": author_data.get("thumbnail", "N/A")
+                if author_data.get("thumbnail") != "https://scholar.google.com/citations/images/avatar_scholar_128.png"
+                else "N/A", 
                 "affiliations": author_data.get("affiliations", "N/A"),
                 "interests": [
                     interest.get("title", "N/A")
                     for interest in author_data.get("interests", [])
                 ]
             }
+        author_details["author profile"] = results["search_metadata"].get("google_scholar_author_url", "N/A")
 
-            if "articles" in results:
-                for article in results["articles"][:5]:
-                    processed_articles.append({
-                        "title": article.get("title", "N/A"),
-                        "link": article.get("link", "N/A"),
-                        "authors": article.get("authors", "N/A"),
-                        "publication": article.get("publication", "N/A"),
-                        "cited_by_value": article.get("cited_by", {}).get("value", "N/A"),
-                        "year": article.get("year", "N/A")
-                    })
+
+        if "articles" in results:
+            for article in results["articles"][:5]:
+                processed_articles.append({
+                    "title": article.get("title", "N/A"),
+                    "link": article.get("link", "N/A"),
+                    "authors": article.get("authors", "N/A"),
+                    "publication": article.get("publication", "N/A"),
+                    "cited_by_value": article.get("cited_by", {}).get("value", "N/A"),
+                    "year": article.get("year", "N/A")
+                })
 
         return {"author": author_details, "articles": processed_articles}
 
