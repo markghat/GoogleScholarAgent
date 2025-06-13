@@ -56,3 +56,5 @@ root_agent = LlmAgent(
         agent_tool.AgentTool(agent=google_search_agent)
     ],
     )
+
+agent = root_agent
