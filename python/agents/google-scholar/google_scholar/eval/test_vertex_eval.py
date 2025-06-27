@@ -107,8 +107,7 @@ follows_trajectory_criteria: Dict[str, str] = {
     Consider these sub-points in your evaluation:
     - Does the response accurately reflect information gathered or actions performed during the trajectory?
     - Is the response consistent with the overall goal of the user's query and any constraints of the task?
-    - Are there any illogical jumps or missing steps in reasoning when moving from the trajectory to the final response?
-    - Provide specific examples from the `predicted_trajectory` (which includes tool calls and outputs) and the `response` to support your evaluation."""
+    - Are there any illogical jumps or missing steps in reasoning when moving from the trajectory to the final response?"""
 }
 
 follows_trajectory_rating_rubric: Dict[str, str] = {
@@ -128,12 +127,14 @@ response_follows_trajectory_metric = PointwiseMetric(
 )
 
 content_relevance_criteria: Dict[str, str] = {
-    "content_relevance": """Evaluate if the agent provides information on research papers. Also evaluate whether the papers cover the content of gluten"""
+    "content_relevance": """Evaluate if the agent provides information on research papers."""
 }
 content_relevance_rating_rubric: Dict[str, str] = {
     "1": "The response contains research papers about gluten",
-    "0.5": "The response contains research papers unrelated to gluten",
-    "0": "The response does not contain research papers",
+    "0.5": "The response contains research papers about artificial intelligence, but not gluten",
+    "0.25": "The response contains research papers unrelated to ai or gluten",
+    "0": "The response does not contain any research papers",
+   
 }
 
 content_relevance_prompt_template = PointwiseMetricPromptTemplate(
