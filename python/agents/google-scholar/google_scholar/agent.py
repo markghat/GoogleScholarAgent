@@ -24,11 +24,11 @@ from .tools.find_papers import find_papers_tool
 from .tools.find_news import find_news_tool
 from .tools.find_author import find_author_tool
 from .tools.find_author_details import find_author_details_tool
-MODEL = "gemini-2.5-pro-preview-05-06"
+MODEL = "gemini-2.5-pro"
 
 
 google_search_agent = LlmAgent(
-    name="root_agent",
+    name="google_search_agent",
     model=MODEL,
     description=(
        """An agent that performs a general Google search when an author's 

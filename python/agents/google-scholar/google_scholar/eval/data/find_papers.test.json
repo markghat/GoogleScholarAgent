@@ -16,13 +16,21 @@
             ],
             "role": "user"
           },
-          "final_response": { 
-            "parts": [
-              {
-                "text": "Here are some papers I found about gluten"
-              }
-            ],
-            "role": "model"
+          "final_response": {
+              "parts": [
+                  {
+                      "function_call": {
+                          "name": "find_papers_tool",
+                          "args": {
+                              "query": "gluten"
+                          }
+                      }
+                  },
+                  {
+                      "text": "Here are some papers I found about gluten."
+                  }
+              ],
+              "role": "model"
           },
           "intermediate_data": {
             "tool_uses": [ 

@@ -14,10 +14,10 @@ def load_env():
 
 @pytest.mark.asyncio
 async def test_all():
-    """Test the agent's basic ability on a few examples."""
+    """Test the agent's basic ability on an example."""
     print("Running evaluate")
     await AgentEvaluator.evaluate(
         "google_scholar",
-        str("google_scholar/eval/data/google-scholar.test.json"),
+        str("google_scholar/eval/data/find_papers.test.json"),
         agent_name="root_agent"
     )
