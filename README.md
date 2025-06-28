@@ -1,56 +1,57 @@
-# Agent Development Kit (ADK) Samples
+# Google Scholar Agent
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+## Overview
 
-<img src="https://github.com/google/adk-docs/blob/main/docs/assets/agent-development-kit.png" alt="Agent Development Kit Logo" width="150">
+The Google Scholar Agent is designed to assist researchers by providing relevant academic papers, author metadata, and news related to their research interests. This agent serves as the foundational component for the larger GrantAI project, offering a practical example for developing sophisticated AI agents.
 
-Welcome to the ADK Sample Agents repository! This collection provides ready-to-use agents built on top of the [Agent Development Kit](https://google.github.io/adk-docs/), designed to accelerate your development process. These agents cover a range of common use cases and complexities, from simple conversational bots to complex multi-agent workflows.
+## User Story
 
-## ✨ Getting Started 
-This repo contains ADK sample agents for both **Python** and **Java.** Navigate to the **[Python](python/)** and **[Java](java/)** subfolders to see language-specific setup instructions, and learn more about the available sample agents. 
+As a researcher, I want an agent that can:
 
-To learn more, check out the [ADK Documentation](https://google.github.io/adk-docs/), and the GitHub repositories for [ADK Python](https://github.com/google/adk-python) and [ADK Java](https://github.com/google/adk-java). 
+* Find papers relevant to my interests.
 
-## 🌳 Repository Structure
-```bash
-├── java
-│   ├── agents
-│   │   ├── software-bug-assistant
-│   │   └── time-series-forecasting
-│   └── README.md
-├── python
-│   ├── agents
-│   │   ├── academic-research
-│   │   ├── brand-search-optimization
-│   │   ├── customer-service
-│   │   ├── data-science
-│   │   ├── financial-advisor
-│   │   ├── fomc-research
-│   │   ├── llm-auditor
-│   │   ├── marketing-agency
-│   │   ├── personalized-shopping
-│   │   ├── RAG
-│   │   ├── README.md
-│   │   ├── software-bug-assistant  
-│   │   └── travel-concierge
-│   └── README.md
-└── README.md
-```
+* Retrieve author metadata (name, affiliations, interests, profile URL, articles published) upon request, specifically by Author ID.
 
-## ℹ️ Getting help
+* Find news related to my research to support my ongoing work.
 
-If you have any questions or if you found any problems with this repository, please report through [GitHub issues](https://github.com/google/adk-samples/issues).
+## Background
 
-## 🤝 Contributing
+This project is a starter for developing agents within the GrantAI ecosystem. It provides hands-on experience with agent development principles and establishes a model for future agents integrated into GrantAI.
 
-We welcome contributions from the community! Whether it's bug reports, feature requests, documentation improvements, or code contributions, please see our [**Contributing Guidelines**](https://github.com/google/adk-samples/blob/main/CONTRIBUTING.md) to get started.
+## Key Features / Subtask Breakdown
 
-## 📄 License
+The agent will be equipped with the following capabilities:
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/google/adk-samples/blob/main/LICENSE) file for details.
+* **Author Metadata Retrieval:** An Agent Tool to retrieve comprehensive author metadata, including name, affiliations, interests, profile URL, and a list of published articles.
 
-## Disclaimers
+* **Research Paper Search:** An Agent Tool to search and retrieve research papers from Google Scholar based on user-defined keywords or interests.
 
-This is not an officially supported Google product. This project is not eligible for the [Google Open Source Software Vulnerability Rewards Program](https://bughunters.google.com/open-source-security).
+* **Research News Search:** An Agent Tool to search Google News for articles and updates relevant to specific research topics.
 
-This project is intended for demonstration purposes only. It is not intended for use in a production environment.
+* **Generic Google Search Sub-Agent:** A Sub-Agent capable of performing general web searches to supplement the specialized tools.
+
+## References
+
+* [Mark's Google Scholar Agent Design Doc](https://docs.google.com/document/d/1jmyIj4ruiHVlS5ZWbmSXbfLY60Jn2kq3LPQ7oArm5XE/edit?tab=t.0#heading=h.2xajk66oyqmg)
+
+* [SerpAPI - Google Scholar API Documentation](https://serpapi.com/google-scholar-api)
+
+## Development and Testing
+
+### Test Plan
+
+Agent Evaluation test cases will be implemented and executed using the Agent Development Kit (ADK) to ensure functionality and reliability.
+
+### Acceptance Criteria
+
+1. All implemented Agent Tools perform as expected according to their specifications.
+
+2. All Agent Evaluation Test Cases pass successfully.
+
+## Review
+
+(Link to review document/platform will be placed here)
+
+### Project Structure
+
+The core functionality involves `prompt.py` for agent interaction and direct calls to the Google Scholar API. Author information retrieval will leverage the Author ID

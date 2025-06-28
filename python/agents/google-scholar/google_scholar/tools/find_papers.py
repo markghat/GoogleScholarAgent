@@ -1,4 +1,4 @@
-"Tool to search Google Scholar for papers on a given topic"
+"""Tool to search Google Scholar for papers on a given topic"""
 
 import os
 import requests
@@ -7,27 +7,31 @@ SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 def find_papers_tool(query: str) -> dict:
     """Performs a search on Google Scholar using SerpApi, limiting results to 5 articles
-    and returning only specific details (link, title, snippet, citation).
+    and returning specific details like title, link, snippet, and author information.
 
     Args:
         query: The search query string.
 
     Returns:
         A dictionary containing a list of up to 5 simplified article results.
-        Each article dictionary will have 'titke', 'link', 'snippet', 'author_names', "author_ids".
-        Returns an empty dictionary if the request fails or no results are found.
+        Each article dictionary will have 'title', 'link', 'snippet', 'author_names', and 'author_ids'.
+        Returns a dictionary with an 'error' key if the request fails.
     """
+    if not os.getenv("SERPAPI_API_KEY"):
+        return {"error": "SERPAPI_API_KEY environment variable not set."}
+
     base_url = "https://serpapi.com/search.json"
     params = {
         "engine": "google_scholar",
         "q": query,
-        "api_key": SERPAPI_API_KEY,
+        "api_key": os.getenv("SERPAPI_API_KEY"),
         "as_ylo": "2000",
         "num": 5, 
     }
 
     try:
-        response = requests.get(base_url, params=params, timeout = 10)
+        response = requests.get(base_url, params=params, timeout=10)
+        response.raise_for_status()  # Raise an exception for bad status codes
         search_results = response.json()
 
         processed_articles = []
@@ -49,7 +53,7 @@ def find_papers_tool(query: str) -> dict:
                     "link": result.get("link", "N/A"),
                     "snippet": result.get("snippet", "N/A"),
                     "author_names": author_names,
-                    "author_id": author_ids
+                    "author_ids": author_ids,
                 }
                 processed_articles.append(article_info)
 
