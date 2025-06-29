@@ -22,27 +22,20 @@ def _scrape_article_links_from_profile(profile_url: str) -> list[str]:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        response = requests.get(profile_url, headers=headers, timeout=15) # Increased timeout
-        response.raise_for_status() # Raise HTTPError for bad responses
+        response = requests.get(profile_url, headers=headers, timeout=1)
+        response.raise_for_status() 
 
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Google Scholar article titles are often links with the class 'gsc_a_at'
-        # Or sometimes they are within specific table rows
-        # Let's target the primary article links
         for link_tag in soup.find_all('a', class_='gsc_a_at'):
             href = link_tag.get('href')
             if href:
-                # Construct full URL if it's relative
                 if not href.startswith('http'):
                     full_url = f"https://scholar.google.com{href}"
                 else:
                     full_url = href
                 
-                # Filter out links that are not direct article view links if possible,
-                # e.g., "cited by" links or "all versions" links often have different classes or URL patterns.
-                # For simplicity, we'll assume gsc_a_at points to the main article view.
-                if "view_article" in full_url: # A common pattern for main article links
+                if "view_article" in full_url: 
                     article_links.add(full_url)
 
     except requests.exceptions.RequestException as e:
@@ -81,7 +74,7 @@ def find_author_details_tool(author_id: str) -> dict:
 
         author_details = {}
         processed_articles = []
-        scraped_article_urls = [] # New list for scraped URLs
+        scraped_article_urls = []
 
         if "author" in results:
             author_data = results["author"]
@@ -100,13 +93,13 @@ def find_author_details_tool(author_id: str) -> dict:
         author_profile_url = results["search_metadata"].get("google_scholar_author_url", "N/A")
         author_details["author profile url"] = author_profile_url
         print(f"DEBUG: Author profile URL: {author_profile_url}")
-        # --- New: Scrape article links from the author's profile URL ---
+     
         if author_profile_url and author_profile_url != "N/A":
             scraped_article_urls = _scrape_article_links_from_profile(author_profile_url)
-        # -----------------------------------------------------------
+   
 
         if "articles" in results:
-            for article in results["articles"][:5]: # Still limiting to 5 from SerpApi results
+            for article in results["articles"][:5]:
                 processed_articles.append({
                     "title": article.get("title", "N/A"),
                     "link": article.get("link", "N/A"),
@@ -119,7 +112,7 @@ def find_author_details_tool(author_id: str) -> dict:
         return {
             "author": author_details,
             "articles": processed_articles,
-            "scraped_article_links": scraped_article_urls # Add scraped links here
+            "scraped_article_links": scraped_article_urls
         }
 
     except requests.exceptions.RequestException as e:
@@ -129,14 +122,11 @@ def find_author_details_tool(author_id: str) -> dict:
         print(f"An unexpected non-requests error occurred: {e}")
         return {"error": f"Unexpected error: {e}"}
 
-# Example usage (you'll need a valid author_id and SERPAPI_API_KEY for this to work)
+
 if __name__ == "__main__":
-    # Ensure SERPAPI_API_KEY is set in your environment variables for this example to run
-    # For testing purposes, you might replace os.getenv with your actual key, but secure it in production.
     if not SERPAPI_API_KEY:
         print("SERPAPI_API_KEY environment variable not set. Please set it to run the example.")
     else:
-        # Example author ID (e.g., Geoffrey Hinton) - replace with an ID you want to test
         test_author_id = "2EpSYrcAAAAJ"
         print(f"Searching for author details and scraping article links for ID: {test_author_id}")
         details = find_author_details_tool(test_author_id)

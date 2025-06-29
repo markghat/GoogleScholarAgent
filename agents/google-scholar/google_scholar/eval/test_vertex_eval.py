@@ -45,61 +45,31 @@ def prepare_eval_dataset(file_path: str) -> pd.DataFrame:
     where each value is a list (e.g., {"prompt": ["q1", "q2"], "reference": ["a1", "a2"]}).
     This format is directly suitable for pandas DataFrame creation.
     """
-    print(f"DEBUG: Attempting to load dataset from: {file_path}")
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            file_content = f.read().strip()
 
-            if not file_content:
-                print(f"DEBUG: File '{file_path}' is empty.")
-                return pd.DataFrame()
+    with open(file_path, 'r', encoding='utf-8') as f:
+        file_content = f.read().strip()
 
-            try:
-                print("DEBUG: Attempting to parse file as a dictionary of lists (Pandas DataFrame input format).")
-                eval_data_dict = json.loads(file_content)
-                
-                if not isinstance(eval_data_dict, dict):
-                    raise ValueError("JSON content is not a dictionary.")
-                for key, value in eval_data_dict.items():
-                    if not isinstance(value, list):
-                        raise ValueError(f"Value for key '{key}' is not a list.")
-                
-                eval_df = pd.DataFrame(eval_data_dict)
+    eval_data_dict = json.loads(file_content)
+    
+    for key, value in eval_data_dict.items():
+    
+        eval_df = pd.DataFrame(eval_data_dict)
 
-                if 'eval_id' not in eval_df.columns:
-                    eval_df['eval_id'] = [f"case_{i}" for i in range(len(eval_df))]
-                if 'prompt' not in eval_df.columns:
-                    eval_df['prompt'] = ['' for _ in range(len(eval_df))]
-                if 'reference' not in eval_df.columns:
-                    eval_df['reference'] = [None for _ in range(len(eval_df))]
-                if 'reference_trajectory' not in eval_df.columns:
-                    eval_df['reference_trajectory'] = [[] for _ in range(len(eval_df))]
-                if 'user_query_original' not in eval_df.columns:
-                    eval_df['user_query_original'] = eval_df['prompt'] 
+        if 'eval_id' not in eval_df.columns:
+            eval_df['eval_id'] = [f"case_{i}" for i in range(len(eval_df))]
+        if 'prompt' not in eval_df.columns:
+            eval_df['prompt'] = ['' for _ in range(len(eval_df))]
+        if 'reference' not in eval_df.columns:
+            eval_df['reference'] = [None for _ in range(len(eval_df))]
+        if 'reference_trajectory' not in eval_df.columns:
+            eval_df['reference_trajectory'] = [[] for _ in range(len(eval_df))]
+        if 'user_query_original' not in eval_df.columns:
+            eval_df['user_query_original'] = eval_df['prompt'] 
 
-                eval_df['predicted_trajectory'] = [[] for _ in range(len(eval_df))] 
-                eval_df['full_agent_history_for_judge'] = ['' for _ in range(len(eval_df))]
+        eval_df['predicted_trajectory'] = [[] for _ in range(len(eval_df))] 
+        eval_df['full_agent_history_for_judge'] = ['' for _ in range(len(eval_df))]
 
-
-                return eval_df
-
-            except json.JSONDecodeError as e:
-                print(f"ERROR: Failed to parse JSON: {e}")
-                print(f"DEBUG: Problematic content start: {file_content[:500]}...")
-                print("Please ensure your 'vertex.test.json' is a valid JSON object formatted as a dictionary of lists.")
-                return pd.DataFrame()
-            except ValueError as e:
-                print(f"ERROR: Invalid data structure for DataFrame: {e}")
-                print("Please ensure your 'vertex.test.json' is a dictionary where each value is a list of equal length.")
-                return pd.DataFrame()
-
-    except FileNotFoundError:
-        print(f"Error: Dataset file not found at {file_path}")
-        return pd.DataFrame()
-    except Exception as e:
-        print(f"An unexpected error occurred during dataset preparation: {e}")
-        traceback.print_exc() 
-        return pd.DataFrame()
+    return eval_df
 
 # --- Custom Metrics Definitions (for LLM judging) ---
 follows_trajectory_criteria: Dict[str, str] = {
@@ -288,11 +258,9 @@ async def run_vertex_evaluation():
     eval_result = eval_task.evaluate()
 
     print("\n--- Detailed LLM-Judged Scores and Explanations ---")
-    # Set pandas option to display all columns and wide format for console
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 1000) 
     
-    # Explicitly select and print columns for both content relevance and trajectory for clarity
     print(eval_result.metrics_table[[
         'eval_id', 
         'prompt', 
@@ -301,7 +269,6 @@ async def run_vertex_evaluation():
         'response_follows_trajectory/score'
     ]])
     
-    # Reset pandas option
     pd.reset_option('display.max_columns')
     pd.reset_option('display.width')
 
